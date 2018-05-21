@@ -8,9 +8,7 @@ Usage:
   python generate_tfrecord.py --csv_input=data/test_labels.csv  --output_path=test.record
 """
 
-from __future__ import division
 from __future__ import print_function
-from __future__ import absolute_import
 
 import os
 import io
@@ -33,7 +31,7 @@ def split(df):
     grouped = []
     data = namedtuple('data', ['filename', 'object'])
     for set in df:
-        if int(set[3:]) < 6:
+        if int(set[3:]) > 5:
             for video in df[set]:
                 for frame in df[set][video]['frames']:
                     filename = set + '_' + video + '_' + frame + '.png'
