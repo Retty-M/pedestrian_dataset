@@ -51,7 +51,7 @@ def create_tf_example(group, path):
     width, height = image.size
 
     filename = group.filename.encode('utf8')
-    image_format = b'png'
+    image_format = 'png'.encode('utf8')
     xmins = []
     xmaxs = []
     ymins = []
@@ -70,8 +70,13 @@ def create_tf_example(group, path):
             xmaxs.append(xmax / width)
             ymins.append(ymin / height)
             ymaxs.append(ymax / height)
+            print(xmins[-1], xmaxs[-1], ymins[-1], ymaxs[-1])
             classes_text.append('person')
             classes.append(1)
+
+    if len(xmins) <= 0:
+        return
+    print(len(xmins))
 
     tf_example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': dataset_util.int64_feature(height),
@@ -84,7 +89,7 @@ def create_tf_example(group, path):
         'image/object/bbox/xmax': dataset_util.float_list_feature(xmaxs),
         'image/object/bbox/ymin': dataset_util.float_list_feature(ymins),
         'image/object/bbox/ymax': dataset_util.float_list_feature(ymaxs),
-        'image/object/class/text': dataset_util.bytes_list_feature(classes_text),
+        # 'image/object/class/text': dataset_util.bytes_list_feature(classes_text),
         'image/object/class/label': dataset_util.int64_list_feature(classes),
     }))
 
@@ -99,7 +104,8 @@ def main(_):
         grouped = split(examples)
         for group in grouped:
             tf_example = create_tf_example(group, path)
-            writer.write(tf_example.SerializeToString())
+            if tf_example is not None:
+                writer.write(tf_example.SerializeToString())
 
     writer.close()
     output_path = os.path.join(os.getcwd(), FLAGS.output_path)

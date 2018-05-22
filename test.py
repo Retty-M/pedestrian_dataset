@@ -32,4 +32,4 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
-print(2/5)
+print(float(2)/3)
