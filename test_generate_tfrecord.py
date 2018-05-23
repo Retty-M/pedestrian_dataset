@@ -8,7 +8,9 @@ Usage:
   python generate_tfrecord.py --csv_input=data/test_labels.csv  --output_path=test.record
 """
 
+from __future__ import division
 from __future__ import print_function
+from __future__ import absolute_import
 
 import os
 import io
@@ -96,7 +98,7 @@ def create_tf_example(group, path):
 
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
-    path = '/home/id/Datasets/caltech/data/images'
+    path = '/home/ubuntu/Datasets/caltech/data/images'
     with open(FLAGS.json_input, 'r') as f:
         examples = json.load(f)
         grouped = split(examples)

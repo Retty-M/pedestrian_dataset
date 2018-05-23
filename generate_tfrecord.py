@@ -98,7 +98,7 @@ def create_tf_example(group, path):
 
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
-    path = '/home/id/Datasets/caltech/data/images'
+    path = '/home/ubuntu/Datasets/caltech/data/images'
     with open(FLAGS.json_input, 'r') as f:
         examples = json.load(f)
         grouped = split(examples)
